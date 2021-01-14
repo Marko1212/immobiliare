@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    Voir la liste des annonces
-    {{ properties[0] }}
+    <h1>Voir la liste des annonces</h1>
+    <ul>
+        {% for property in properties  %}
+        <li>
+            <a href="{{ path('property_show', {slug: property.title}) }}">
+                {{ property.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {# On peut dumper dans Twig aussi #}
+    {{ dump(properties) }}
 {% endblock %}
