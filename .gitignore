@@ -15,4 +15,5 @@
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
 
+# On ignore le .idea de PhpStorm pour éviter les conflits en équipe
 .idea
