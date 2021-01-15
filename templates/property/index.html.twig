@@ -6,15 +6,13 @@
     <div class="row">
         <div class="col-lg-3">
             <form action="" method="get">
-                <input type="number" class="form-control mb-3" name="surface" placeholder="Surface minimum">
-                <input type="number" class="form-control mb-3" name="budget"placeholder="Budget minimum">
+                <input type="number" class="form-control mb-3" name="surface" placeholder="Surface minimum" value="{{ app.request.get('surface') }}">
+                <input type="number" class="form-control mb-3" name="budget"placeholder="Budget minimum" value="{{ app.request.get('budget') }}">
                 <select class="form-control mb-3" name="size">
-                    <option value = "" disabled selected>Nombre de pièces</option>
-                    <option value = "1">T1</option>
-                    <option value = "2">T2</option>
-                    <option value = "3">T3</option>
-                    <option value = "4">T4</option>
-                    <option value = "5">T5</option>
+                    <option value = "" disabled {{ app.request.get('size') == null ? 'selected'}}>Nombre de pièces</option>
+                    {% for size in sizes %}
+                        <option value = "{{ loop.index }}" {{ loop.index == app.request.get('size') ? 'selected' }} >{{ size }}</option>
+                    {% endfor %}
                 </select>
 
                 <button class="btn btn-primary btn-block">Filtrer</button>

@@ -40,7 +40,19 @@ private $properties = [
 
         dump($surface);
 
-        return $this->render('property/index.html.twig', ['properties' => $properties]);
+        //dump($request);
+
+        // On prépare un tableau avec les tailles des biens
+
+        $sizes = [
+            1 => 'Studio',
+            2 => 'T2',
+            3 => 'T3',
+            4 => 'T4',
+            5 => 'T5',
+        ];
+
+        return $this->render('property/index.html.twig', ['properties' => $properties, 'sizes' => $sizes]);
     }
 
     /**
