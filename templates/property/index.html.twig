@@ -2,13 +2,47 @@
 
 {% block body %}
     <h1>Voir la liste des annonces</h1>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <form action="" method="get">
+                <input type="number" class="form-control mb-3" name="surface" placeholder="Surface minimum">
+                <input type="number" class="form-control mb-3" name="budget"placeholder="Budget minimum">
+                <select class="form-control mb-3" name="size">
+                    <option value = "" disabled selected>Nombre de pièces</option>
+                    <option value = "1">T1</option>
+                    <option value = "2">T2</option>
+                    <option value = "3">T3</option>
+                    <option value = "4">T4</option>
+                    <option value = "5">T5</option>
+                </select>
+
+                <button class="btn btn-primary btn-block">Filtrer</button>
+            </form>
+        </div>
+
+        <div class="col-lg-9">
+            <div class="row">
+            {% for property in properties  %}
+                <div class="col-lg-4">
+                <div class="card">
+                    <a href="{{ path('property_show', {slug: property.title}) }}">
+                        {{ property.title }}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
     <ul>
         {% for property in properties  %}
-        <li>
+        <div >
             <a href="{{ path('property_show', {slug: property.title}) }}">
                 {{ property.title }}
             </a>
-        </li>
+        </div>
         {% endfor %}
     </ul>
 

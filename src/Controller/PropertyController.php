@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,7 +20,7 @@ private $properties = [
      * @Route("/property/{page}", name="property_list", requirements = {"page" = "\d+"})
      * Page qui liste les annonces immobilières
      */
-    public function index($page = 1): Response
+    public function index(Request $request, $page = 1): Response
     {
         // Pour démarrer, on va créer un tableau d'annonces
 
@@ -29,7 +30,15 @@ private $properties = [
         // Equivalent au var_dump
         dump($properties);
 
+        // On peut récupérer des informations liées à la requête http
 
+        $surface = $request->query->get('surface'); // équivaut à $_GET['surface']
+        $budget = $request->query->get('budget');
+        $budget = $request->query->get('size');
+
+        // il nous manque la BDD pour faire le tri
+
+        dump($surface);
 
         return $this->render('property/index.html.twig', ['properties' => $properties]);
     }
