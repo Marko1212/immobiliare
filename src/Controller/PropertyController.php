@@ -35,7 +35,7 @@ private $properties = [
     }
 
     /**
-     * @Route("property/{slug}", name="property_show")
+     * @Route("/property/{slug}", name="property_show")
      * Page qui affiche une annonce avec un paramètre dynamique
      */
     public function show($slug) : Response {
@@ -48,4 +48,16 @@ private $properties = [
 
         return $this->render('property/show.html.twig', ['slug' => $slug]);
     }
+
+    /**
+     * @Route("/property.{_format}", name="property_api")
+     */
+
+    public function api(): Response
+    {
+       // return $this->json($this->properties);
+
+        return new Response(json_encode($this->properties));
+    }
+
 }

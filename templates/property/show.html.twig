@@ -1,5 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    Voir une annonce {{ slug }}
+    Voir l'annonce {{ slug | upper }}
+
+    {% for letter in 'a'..'z' %}
+        {{ cycle(['<strong>', '<span>'], loop.index) | raw }}
+    {{ letter }}
+        {{ cycle(['</strong>', '</span>'], loop.index) | raw }}
+    {% endfor %}
 {% endblock %}
