@@ -4,7 +4,18 @@
     <h1>Ajouter une annonce</h1>
 
     {{ form_start(realEstateForm) }}
+    <div class="row">
+            <div class="col-lg-6">
+                {{ form_label(realEstateForm.title, 'Titre') }}
+                {{ form_widget(realEstateForm.title) }}
+            </div>
+            <div class="col-lg-6">
+                {{ form_row(realEstateForm.description) }}
+            </div>
+    </div>
+
     {{ form_widget(realEstateForm) }}
+
 
     <!-- le formnovalidate permet de désactiver la validation HTML5 -->
     <button class="btn btn-primary" formnovalidate>Ajouter</button>
