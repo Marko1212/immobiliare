@@ -4,7 +4,6 @@ $('#ajax-properties').click(function() {
     });
 });
 
-$('#result').remove();
 $('#real_estate_surface').after('<div id="result">' + $('#real_estate_surface').val() + ' m²</div>');
 
 $('#real_estate_surface').on('input', function() {
