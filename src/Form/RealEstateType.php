@@ -22,7 +22,9 @@ class RealEstateType extends AbstractType
                 'class' => 'p-0',
             ],
                 ])
-            ->add('price')
+            ->add('price', null, [
+                'label' => 'Prix'
+            ])
             // on peut chnager le type du champ avec le 2nd paramètre
             ->add('rooms', ChoiceType::class, [
                 'choices' => [
@@ -32,6 +34,7 @@ class RealEstateType extends AbstractType
                     'T4' => 4,
                     'T5' => 5,
                 ],
+                'label' =>'Nombre de pièces'
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
@@ -40,7 +43,9 @@ class RealEstateType extends AbstractType
                 ],
                 'expanded' => true
             ])
-            ->add('sold')
+            ->add('sold', null, [
+                'label' => 'Vendu ?',
+            ])
         ;
     }
 
