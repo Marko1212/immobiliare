@@ -34,6 +34,19 @@ class RealEstateController extends AbstractController
     }
 
     /**
+     * @Route("/nos-biens/{id}", name = "real_estate_show")
+     */
+    public function show(RealEstate $property)
+    {
+      //  $property = $this->getDoctrine()->getRepository(RealEstate::class)->find($id);
+
+     //   if(!$property) {
+     //       throw $this->createNotFoundException();
+        // }
+        return $this->render('real_estate/show.html.twig', ['property' => $property]);
+    }
+
+    /**
      * @Route("creer-un-bien", name="real_estate_create")
      */
     public function create(Request $request) : Response {
