@@ -43,8 +43,13 @@ class RealEstateType extends AbstractType
                 ],
                 'expanded' => true
             ])
-            ->add('sold', null, [
+            ->add('sold', ChoiceType::class, [
                 'label' => 'Vendu ?',
+                'choices' => [
+                    'Non' => false,
+                    'Oui' => true
+                ],
+               // 'expanded' => true,
             ])
         ;
     }

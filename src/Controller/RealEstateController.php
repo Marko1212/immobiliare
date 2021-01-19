@@ -16,7 +16,20 @@ class RealEstateController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('real_estate/index.html');
+        $sizes = [
+            1 => 'Studio',
+            2 => 'T2',
+            3 => 'T3',
+            4 => 'T4',
+            5 => 'T5',
+        ];
+
+        $properties = [];
+
+        return $this->render('real_estate/index.html.twig', [
+            'sizes' => $sizes,
+            'properties' => $properties,
+        ]);
     }
 
     /**

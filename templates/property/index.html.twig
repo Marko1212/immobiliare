@@ -7,7 +7,7 @@
         <div class="col-lg-3">
             <form action="" method="get">
                 <input type="number" class="form-control mb-3" name="surface" placeholder="Surface minimum" value="{{ app.request.get('surface') }}">
-                <input type="number" class="form-control mb-3" name="budget"placeholder="Budget minimum" value="{{ app.request.get('budget') }}">
+                <input type="number" class="form-control mb-3" name="budget" placeholder="Budget minimum" value="{{ app.request.get('budget') }}">
                 <select class="form-control mb-3" name="size">
                     <option value = "" disabled {{ app.request.get('size') == null ? 'selected'}}>Nombre de pièces</option>
                     {% for size in sizes %}
