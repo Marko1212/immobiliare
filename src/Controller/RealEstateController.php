@@ -69,6 +69,11 @@ class RealEstateController extends AbstractController
             $entityManager->persist($realEstate);
             $entityManager->flush();
 
+            // faire une redirection après l'ajout et affiche un message de succès
+            // après le flush() on peut récupérer le id de l'objet, ce qu'on fait ci-dessous
+            $this->addFlash('success', 'Votre annonce '.$realEstate->getId().' a bien été ajoutée');
+            return $this->redirectToRoute('real_estate_list');
+            // Faire la redirection vers la liste des annonces et afficher les messages flash sur le html
 
         }
 
