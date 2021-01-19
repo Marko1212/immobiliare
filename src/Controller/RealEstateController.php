@@ -24,7 +24,8 @@ class RealEstateController extends AbstractController
             5 => 'T5',
         ];
 
-        $properties = [];
+        $repository = $this->getDoctrine()->getRepository(RealEstate::class);
+        $properties = $repository->findAll();
 
         return $this->render('real_estate/index.html.twig', [
             'sizes' => $sizes,
