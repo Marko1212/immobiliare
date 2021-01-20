@@ -6,9 +6,17 @@ use App\Entity\RealEstate;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
+    private $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr:FR');
@@ -22,6 +30,10 @@ class AppFixtures extends Fixture
             // Appartement (avec jardin, avec balcon)
             // Maison T4 (en centre-ville ou en campagne)
             $realEstate->setTitle($title);
+           // $realEstate->setSlug($faker->slug);
+            $slug = $this->slugger->slug($realEstate->getTitle())->lower();
+            $realEstate->setSlug($slug);
+            
             $realEstate->setDescription($faker->text(2000));
             $realEstate->setSurface($faker->numberBetween(10, 400));
             $realEstate->setPrice($faker->numberBetween(34875, 584725));
