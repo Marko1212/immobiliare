@@ -52,7 +52,9 @@ class RealEstateType extends AbstractType
                 ],
                // 'expanded' => true,
             ])
-            ->add('image', FileType::class, ['mapped' => false])
+            ->add('image', FileType::class,
+                //on désactive le lien avec la BDD
+                ['mapped' => false])
         ;
     }
 
