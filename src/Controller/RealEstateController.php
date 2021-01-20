@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RealEstateController extends AbstractController
 {
@@ -49,7 +50,7 @@ class RealEstateController extends AbstractController
     /**
      * @Route("creer-un-bien", name="real_estate_create")
      */
-    public function create(Request $request) : Response {
+    public function create(Request $request, SluggerInterface $slugger) : Response {
 
         $realEstate = new RealEstate();
 
@@ -63,6 +64,12 @@ class RealEstateController extends AbstractController
             //ici on va ajouter l'annonce dans la base...
 
            dump($realEstate);
+
+           // On génère le slug et on fait l'upload avant l'ajout en base
+
+            $slug = $slugger->slug($realEstate->getTitle())->lower();
+            //le nom de l'annonce devient : le-nom-de-l-annonce
+            $realEstate->setSlug($slug);
 
            //je dois ajouter l'objet dans la BDD
             $entityManager = $this->getDoctrine() ->getManager();

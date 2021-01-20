@@ -19,7 +19,7 @@
                 <input type="number" class="form-control mb-3" name="surface" placeholder="Surface minimum" value="{{ app.request.get('surface') }}">
                 <input type="number" class="form-control mb-3" name="budget" placeholder="Budget minimum" value="{{ app.request.get('budget') }}">
                 <select class="form-control mb-3" name="size">
-                    <option value = "" disabled {{ app.request.get('size') == null ? 'selected'}}>Nombre de pièces</option>
+                    <option value = "" disabled {{ app.request.get('size') == null ? 'selected'}}>Nombre de pièce(s)</option>
                     {% for size in sizes %}
                         <option value = "{{ loop.index }}" {{ loop.index == app.request.get('size') ? 'selected' }} >{{ size }}</option>
                     {% endfor %}
@@ -33,7 +33,7 @@
             <div class="row">
                 {% for property in properties  %}
                     <div class="col-lg-4">
-                        <div class="card mb-3">
+                        <div class="card mb-4">
                             <img class="card-img" src = "{{ asset('img/house.jpg')}}" alt="{{ property.title }}">
                             <div class="card-body">
                                 <h5 class="card-title">
