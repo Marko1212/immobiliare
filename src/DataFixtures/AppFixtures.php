@@ -30,10 +30,11 @@ class AppFixtures extends Fixture
             // Appartement (avec jardin, avec balcon)
             // Maison T4 (en centre-ville ou en campagne)
             $realEstate->setTitle($title);
+            
            // $realEstate->setSlug($faker->slug);
             $slug = $this->slugger->slug($realEstate->getTitle())->lower();
             $realEstate->setSlug($slug);
-            
+
             $realEstate->setDescription($faker->text(2000));
             $realEstate->setSurface($faker->numberBetween(10, 400));
             $realEstate->setPrice($faker->numberBetween(34875, 584725));
