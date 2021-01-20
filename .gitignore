@@ -7,6 +7,7 @@
 /public/bundles/
 /public/img/uploads/*
 !/public/img/uploads/default.png
+!/public/img/uploads/fixtures/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
