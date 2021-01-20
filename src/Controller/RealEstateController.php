@@ -36,7 +36,7 @@ class RealEstateController extends AbstractController
     }
 
     /**
-     * @Route("/nos-biens/{slug}_{id}", name = "real_estate_show")
+     * @Route("/nos-biens/{slug}_{id}", name = "real_estate_show", requirements={"slug"="[a-z0-9\-]*"})
      */
     public function show(RealEstate $property)
     {
