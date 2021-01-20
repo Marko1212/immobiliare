@@ -52,7 +52,7 @@ class RealEstateType extends AbstractType
                 ],
                // 'expanded' => true,
             ])
-            ->add('image', FileType::class)
+            ->add('image', FileType::class, ['mapped' => false])
         ;
     }
 

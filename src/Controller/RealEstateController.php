@@ -40,10 +40,10 @@ class RealEstateController extends AbstractController
      */
     public function show(RealEstate $property)
     {
-      //  $property = $this->getDoctrine()->getRepository(RealEstate::class)->find($id);
+        //  $property = $this->getDoctrine()->getRepository(RealEstate::class)->find($id);
 
-     //   if(!$property) {
-     //       throw $this->createNotFoundException();
+        //   if(!$property) {
+        //       throw $this->createNotFoundException();
         // }
         return $this->render('real_estate/show.html.twig', ['property' => $property]);
     }
@@ -51,22 +51,23 @@ class RealEstateController extends AbstractController
     /**
      * @Route("creer-un-bien", name="real_estate_create")
      */
-    public function create(Request $request, SluggerInterface $slugger) : Response {
+    public function create(Request $request, SluggerInterface $slugger): Response
+    {
 
         $realEstate = new RealEstate();
 
         $form = $this->createForm(RealEstateType::class, $realEstate);
 
-        $form -> handleRequest($request);
+        $form->handleRequest($request);
 
         // On doit vérifier que le formulaire est soumis et valide
 
         if ($form->isSubmitted() && $form->isValid()) {
             //ici on va ajouter l'annonce dans la base...
 
-           dump($realEstate);
+            dump($realEstate);
 
-           // On génère le slug et on fait l'upload avant l'ajout en base
+            // On génère le slug et on fait l'upload avant l'ajout en base
 
             $slug = $slugger->slug($realEstate->getTitle())->lower();
             //le nom de l'annonce devient : le-nom-de-l-annonce
@@ -86,19 +87,50 @@ class RealEstateController extends AbstractController
             //dump(__DIR__);
             //dd($image); // dump & die
 
-           //je dois ajouter l'objet dans la BDD
-            $entityManager = $this->getDoctrine() ->getManager();
+            //je dois ajouter l'objet dans la BDD
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($realEstate);
             $entityManager->flush();
 
             // faire une redirection après l'ajout et affiche un message de succès
             // après le flush() on peut récupérer le id de l'objet, ce qu'on fait ci-dessous
-            $this->addFlash('success', 'Votre annonce '.$realEstate->getId().' a bien été ajoutée');
+            $this->addFlash('success', 'Votre annonce ' . $realEstate->getId() . ' a bien été ajoutée');
             return $this->redirectToRoute('real_estate_list');
             // Faire la redirection vers la liste des annonces et afficher les messages flash sur le html
 
         }
 
         return $this->render('real_estate/create.html.twig', ['realEstateForm' => $form->createView()]);
-}
+    }
+
+    /**
+     * @Route("nos-biens/modifier/{id}", name="real_estate_edit")
+     */
+    public function edit(RealEstate $realEstate)
+    {
+        $form = $this->createForm(RealEstateType::class, $realEstate);
+
+        return $this->render('real_estate/edit.html.twig', [
+            'realEstateForm' => $form->createView(),
+            'realEstate' => $realEstate,
+        ]);
+
+    }
+
+    /**
+     * @Route("nos-biens/supprimer/{id}", name="real_estate_delete")
+     */
+    public function delete(RealEstate $realEstate)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->remove($realEstate);
+
+        $entityManager->flush();
+
+        $this->addFlash('danger', 'L\'annonce a bien été supprimée');
+
+        return $this->redirectToRoute('real_estate_list');
+    }
+
 }
