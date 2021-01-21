@@ -17,7 +17,7 @@ class RealEstateController extends AbstractController
     /**
      * @Route("/mes-biens", name="real_estate_list")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $sizes = [
             1 => 'Studio',
@@ -28,7 +28,12 @@ class RealEstateController extends AbstractController
         ];
 
         $repository = $this->getDoctrine()->getRepository(RealEstate::class);
-        $properties = $repository->findAll();
+        $properties = $repository->findAllWithSurface(
+             //$request->query->get('surface', 0)
+            $request->get('surface', 0),
+            $request->get('budget', 999999999999999999),
+            $request->get('size')
+        );
 
         return $this->render('real_estate/index.html.twig', [
             'sizes' => $sizes,
