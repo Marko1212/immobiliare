@@ -21,6 +21,23 @@ $('[type="file"]').on('change', function() {
     $(this).next().text(label);
 
     let reader = new FileReader();
+    // On doit écouter un évenement pour faire quelque chose avec cette image
+    reader.addEventListener('load', function(file) {
+        // Cleaner les anciennes images (pour ne pas pouvoir afficher
+        // plusieurs images)
+        $('.custom-file img').remove();
+
+        let base64 = file.target.result;
+
+        let img = $('<img class="img-fluid mt-5 width="250" />');
+        img.attr('src', base64);
+        // Afficher l'image dans la div .custom-file
+        
+        $('.custom-file').prepend(img);
+
+    });
+
+    // Le JS va charger l'image en mémoire (code asynchrone)
     reader.readAsDataURL(this.files[0]);
 
-});
+}); // Fin du on('change')
