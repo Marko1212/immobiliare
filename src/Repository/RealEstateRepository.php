@@ -54,6 +54,15 @@ class RealEstateRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult(); // Renvoie un tableau de RealEstate
     }
 
+    public function search($query)
+    {
+        $qb = $this->createQueryBuilder('r')
+                   ->where('r.title LIKE :query')
+                   ->setParameter('query', '%'.$query.'%');
+
+        return $qb->getQuery()->getResult();
+    }
+
     // /**
     //  * @return RealEstate[] Returns an array of RealEstate objects
     //  */
