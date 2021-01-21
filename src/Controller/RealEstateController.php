@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\RealEstate;
 use App\Form\RealEstateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -118,6 +119,22 @@ class RealEstateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // pas besoin de faire de persist...Doctrine va détecter
             // automatiquement qu'il doit faire un UPDATE
+            // ATTENTION si on change le slug aux histoires de redirection (sites de e-commerce...)
+
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $defaultImages = ['default.jpg', 'fixtures/1.jpg', 'fixtures/2.jpg','fixtures/3.jpg'];
+                //on supprime uniquement les images vraiment upload-ées par les utilisateurs
+                if ($realEstate->getImage() && !in_array($realEstate->getImage(), $defaultImages)) {
+                    $fs= new Filesystem();
+                    $fs->remove($this->getParameter('upload_directory').'/'.$realEstate->getImage());
+                }
+
+                $fileName = uniqid() . '.' . $image->guessExtension();
+                $image->move($this->getParameter('upload_directory'), $fileName);
+                $realEstate->setImage($fileName);
+            }
+
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'L\'annonce a bien été modifiée');
             return $this->redirectToRoute('real_estate_list');
