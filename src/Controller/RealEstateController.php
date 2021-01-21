@@ -123,7 +123,7 @@ class RealEstateController extends AbstractController
 
             $image = $form->get('image')->getData();
             if ($image) {
-                $defaultImages = ['default.jpg', 'fixtures/1.jpg', 'fixtures/2.jpg','fixtures/3.jpg'];
+                $defaultImages = ['default.png', 'fixtures/1.jpg', 'fixtures/2.jpg','fixtures/3.jpg'];
                 //on supprime uniquement les images vraiment upload-ées par les utilisateurs
                 if ($realEstate->getImage() && !in_array($realEstate->getImage(), $defaultImages)) {
                     $fs= new Filesystem();
