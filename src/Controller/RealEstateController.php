@@ -28,7 +28,7 @@ class RealEstateController extends AbstractController
         ];
 
         $repository = $this->getDoctrine()->getRepository(RealEstate::class);
-        $properties = $repository->findAllWithSurface(
+        $properties = $repository->findAllWithFilters(
              //$request->query->get('surface', 0)
             $request->get('surface', 0),
             $request->get('budget', 999999999999999999),

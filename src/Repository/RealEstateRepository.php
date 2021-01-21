@@ -19,7 +19,7 @@ class RealEstateRepository extends ServiceEntityRepository
         parent::__construct($registry, RealEstate::class);
     }
 
-    public function findAllWithSurface($surface, $price, $rooms)
+    public function findAllWithFilters($surface, $price, $rooms)
     {
         //préparation de la requête
         //'SELECT from real_estate r WHERE surface > 150 AND budget > 100000
