@@ -151,6 +151,7 @@ class RealEstateController extends AbstractController
      */
     public function delete(RealEstate $realEstate)
     {
+        //il faudrait aussi effacer le fichier image ce qui n'a pas été fait ici (copié collé du code ci-dessus, méthode edit())
         $entityManager = $this->getDoctrine()->getManager();
 
         $entityManager->remove($realEstate);
