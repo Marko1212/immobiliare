@@ -37,12 +37,9 @@ class RealEstateType extends AbstractType
                 ],
                 'label' =>'Nombre de pièces'
             ])
-            ->add('type', ChoiceType::class, [
-                'choices' => [
-                    'Maison' => 'maison',
-                    'Appartement' => 'appartement'
-                ],
-                'expanded' => true
+            ->add('type', null, [
+                'choice_label' => 'name',
+                'expanded' => true, // on crée des input radio
             ])
             ->add('sold', ChoiceType::class, [
                 'label' => 'Vendu ?',
