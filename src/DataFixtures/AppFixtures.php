@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\RealEstate;
+use App\Entity\Type;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -20,10 +21,20 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr:FR');
+
+        // On crée des catégories avant de créer des annonces
+
+        $typeNames = ['Maison', 'Appartement', 'Villa', 'Garage'];
+        foreach($typeNames as $key=>$typeName) {
+            $type=new Type();
+            $type->setName($typeName);
+            $this->addReference('type-'. $key, $type);
+            $manager->persist($type);
+        }
         for($i=1; $i <=100; $i++) {
             $realEstate = new RealEstate();
-            $type = $faker->randomElement(['maison', 'appartement']);
-            $title = ucfirst($type).' ';
+            $type = $this->getReference('type-' . rand(0, 3)); //on prend une catégorie aléatoire
+            $title = ucfirst($type->getName()).' ';
             $rooms = $faker->numberBetween(1, 5);
             //dump($rooms);
             $title .= RealEstate::SIZES[$rooms]; // T2, T3, T4
