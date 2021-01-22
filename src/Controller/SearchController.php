@@ -18,7 +18,10 @@ class SearchController extends AbstractController
         //On renvoie du JSON car c'est une API
        // return new Response(json_encode(['query' => $query])); //retourne du content type html (réponse)
         //donc besoin de faire un parse du JSON côté JS
-        return $this->json(['results' => $realEstates]); // retourne du JSON
+        return $this->json(['results' => $realEstates,
+                            'html' => $this->renderView('real_estate/_real_estate.html.twig', ['properties' => $realEstates]),
+        ]);
+        // retourne du JSON
         // grâce à Symfony, retour du JSON (content type JSON de la réponse)
         //JS le convertit alors automatiquement en objet JS
         //donc, en fonction du serveur, besoin ou non de 'parser' la réponse en objet

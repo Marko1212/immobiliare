@@ -5,11 +5,11 @@ $("#search").keyup(function() {
 
     $.ajax('/api/search/' + value, { type: 'GET' }).then(function(response) {
         console.log(response);
-        let ul = $('<ul></ul>');
+      /* let ul = $('<ul></ul>');
         for (let property of response.results) {
             let li = $('<li>'+property.title+'</li>')
             ul.append(li);
-        }
-        $("#real-estate-list").html(ul);
+        }  */
+        $("#real-estate-list").html(response.html);
     });
 });
