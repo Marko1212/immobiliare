@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
 
         // On crée des catégories avant de créer des annonces
 
-        $typeNames = ['Maison', 'Appartement', 'Villa', 'Garage'];
+        $typeNames = ['Maison', 'Appartement', 'Villa', 'Garage', 'Studio'];
         foreach($typeNames as $key=>$typeName) {
             $type=new Type();
             $type->setName($typeName);
@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
         }
         for($i=1; $i <=100; $i++) {
             $realEstate = new RealEstate();
-            $type = $this->getReference('type-' . rand(0, 3)); //on prend une catégorie aléatoire
+            $type = $this->getReference('type-' . rand(0, count($typeNames) - 1)); //on prend une catégorie aléatoire
             $title = ucfirst($type->getName()).' ';
             $rooms = $faker->numberBetween(1, 5);
             //dump($rooms);
