@@ -2,7 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\RealEstate;
 use App\Entity\Type;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -16,7 +19,13 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return $this->render('admin/dashboard.html.twig');
+        $entityManager = $this->getDoctrine();
+        $userRepository = $entityManager->getRepository(User::class);
+        $realEstateRepository = $entityManager->getRepository(RealEstate::class);
+        return $this->render('admin/dashboard.html.twig', [
+            'userCount' => $userRepository->count([]),
+            'realEstateCount' => $realEstateRepository->count([]),
+        ]);
     }
 
     public function configureDashboard(): Dashboard
