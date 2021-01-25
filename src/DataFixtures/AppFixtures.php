@@ -4,23 +4,35 @@ namespace App\DataFixtures;
 
 use App\Entity\RealEstate;
 use App\Entity\Type;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
     private $slugger;
+    private $passwordEncoder;
 
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->slugger = $slugger;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr:FR');
+
+        // On crée un User pour pouvoir se connecter
+
+        $user = new User();
+        $user->setEmail('askmarko@hotmail.com');
+        $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));;
+        $user->setRoles(['ROLE_ADMIN']);
+        $manager->persist($user);
 
         // On crée des catégories avant de créer des annonces
 
