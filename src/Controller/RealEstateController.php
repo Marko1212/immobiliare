@@ -93,7 +93,12 @@ class RealEstateController extends AbstractController
             //dump(__DIR__);
             //dd($image); // dump & die
 
+            //on rajoute le propriétaire à l'annonce
+            //getUser() renvoie le propriétaire, qui est l'utilisateur connecté
+            $realEstate->setOwner($this->getUser());
+
             //je dois ajouter l'objet dans la BDD
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($realEstate);
             $entityManager->flush();
