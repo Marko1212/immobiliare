@@ -49,6 +49,9 @@
                                 <p class="card-text">
                                     {{ property.surface}} m² - {{ property.rooms }} pièce(s)
                                 </p>
+                                <p class="card-text">
+                                    Propriétaire : {{ property.owner.username | split('@').0 }}
+                                </p>
                                 <p class="property-price">
                                     {{ property.price }} €
                                 </p>

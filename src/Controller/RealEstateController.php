@@ -15,7 +15,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class RealEstateController extends AbstractController
 {
     /**
-     * @Route("/mes-biens", name="real_estate_list")
+     * @Route("/tous-les-biens", name="real_estate_list")
      */
     public function index(Request $request): Response
     {
