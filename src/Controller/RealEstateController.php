@@ -42,7 +42,7 @@ class RealEstateController extends AbstractController
     }
 
     /**
-     * @Route("/nos-biens/{slug}_{id}", name = "real_estate_show", requirements={"slug"="[a-z0-9\-]*"})
+     * @Route("/tous-les-biens/{slug}_{id}", name = "real_estate_show", requirements={"slug"="[a-z0-9\-]*"})
      */
     public function show(RealEstate $property)
     {
@@ -115,10 +115,16 @@ class RealEstateController extends AbstractController
     }
 
     /**
-     * @Route("nos-biens/modifier/{id}", name="real_estate_edit")
+     * @Route("tous-les-biens/modifier/{id}", name="real_estate_edit")
      */
     public function edit(Request $request, RealEstate $realEstate)
     {
+        //On doit vérifier que l'utilisateur connecté a bien le droit de modifier l'annonce
+
+        if ($this->getUser()!==$realEstate->getOwner()) {
+            throw $this->createAccessDeniedException(); // Renvoie une 403
+        }
+
         $form = $this->createForm(RealEstateType::class, $realEstate);
 
         // Faire le traitement du formulaire
@@ -157,10 +163,14 @@ class RealEstateController extends AbstractController
     }
 
     /**
-     * @Route("nos-biens/supprimer/{id}", name="real_estate_delete")
+     * @Route("tous-les-biens/supprimer/{id}", name="real_estate_delete")
      */
     public function delete(RealEstate $realEstate)
     {
+
+        if ($this->getUser()!==$realEstate->getOwner()) {
+            throw $this->createAccessDeniedException(); // Renvoie une 403
+        }
         //il faudrait aussi effacer le fichier image ce qui n'a pas été fait ici (copié collé du code ci-dessus, méthode edit())
         $entityManager = $this->getDoctrine()->getManager();
 
