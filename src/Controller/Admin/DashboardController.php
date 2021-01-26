@@ -24,7 +24,7 @@ class DashboardController extends AbstractDashboardController
         $realEstateRepository = $entityManager->getRepository(RealEstate::class);
         return $this->render('admin/dashboard.html.twig', [
             'userCount' => $userRepository->count([]),
-            'realEstateCount' => $realEstateRepository->count(['sold' => 'false']),
+            'realEstateCount' => $realEstateRepository->count(['sold' => false]),
         ]);
     }
 

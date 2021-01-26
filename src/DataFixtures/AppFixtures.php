@@ -32,8 +32,20 @@ class AppFixtures extends Fixture
         $user->setEmail('askmarko@hotmail.com');
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));;
         $user->setRoles(['ROLE_ADMIN']);
+        $this->addReference('user-0', $user);
         $manager->persist($user);
 
+        //Création d'utilisateurs "lambda"
+        
+        for ($i=1; $i <= 9; $i++) {
+            $user = new User();
+            $user->setEmail($faker->email);
+            $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));
+            $this->addReference('user-'.$i, $user);
+            $manager->persist($user);
+        }
+        
+        
         // On crée des catégories avant de créer des annonces
 
         $typeNames = ['Maison', 'Appartement', 'Villa', 'Garage', 'Studio'];
@@ -65,6 +77,8 @@ class AppFixtures extends Fixture
             $realEstate->setType($type);
             $realEstate->setSold($faker->boolean(10)); // 10% de chances d'avoir true
             $realEstate->setImage($faker->randomElement(['default.png', 'fixtures/1.jpg', 'fixtures/2.jpg', 'fixtures/3.jpg']));
+
+            $realEstate->setOwner($this->getReference('user-' . rand(0, 9))); // user-0 c'est l'admin
             $manager->persist($realEstate);
 
         }
