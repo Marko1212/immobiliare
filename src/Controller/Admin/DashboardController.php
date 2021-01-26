@@ -24,7 +24,7 @@ class DashboardController extends AbstractDashboardController
         $realEstateRepository = $entityManager->getRepository(RealEstate::class);
         return $this->render('admin/dashboard.html.twig', [
             'userCount' => $userRepository->count([]),
-            'realEstateCount' => $realEstateRepository->count([]),
+            'realEstateCount' => $realEstateRepository->count(['sold' => 'false']),
         ]);
     }
 
@@ -38,5 +38,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Catégories', 'fas fa-list', Type::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('Annonces', 'fa fa-building', RealEstate::class);
     }
 }
