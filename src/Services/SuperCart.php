@@ -69,4 +69,8 @@ class SuperCart
         }
         $this->session->set('products', $products);
     }
+
+    public function clear() {
+        $this->session->set('products', []);
+    }
 }

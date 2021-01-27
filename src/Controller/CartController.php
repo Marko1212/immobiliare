@@ -106,10 +106,22 @@ class CartController extends AbstractController
                 ->from('commande@immobiliare.com')
                 ->to($this->getUser()->getEmail())
                 ->subject('Votre commande')
-                ->html('<h1>Hello</h1>');
+                ->html($this->renderView('emails/order.html.twig', [
+                    'paymentIntent' => $paymentIntent,
+                    'cart' => $superCart,
+                    'user' => $this->getUser(),
+                ]));
 
         //J'envoie le mail...
         $mailer->send($email);
+
+        //Vider le panier
+        $superCart->clear();
+
+
+        //Idéalement, on pourrait créer une entité Order
+        // qui stockerait le client, le montant, la liste des produits,
+        // l'identifiant Stripe
 
         return $this->render('cart/success.html.twig');
     }
