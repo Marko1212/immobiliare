@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\RealEstate;
 use App\Services\SuperCart;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,9 +55,38 @@ class CartController extends AbstractController
     /**
      * @Route("/cart", name="cart_index")
      */
-    public function index(SuperCart $superCart) {
+    public function index(SuperCart $superCart, $stripeKey) {
+
+        //dd($stripeKey);
+
+        Stripe::setApiKey($stripeKey);
+
+        //vérification non cohérente dans la réalité
+        //c'est pour éviter le bug, car
+        //Stripe autorise un montant maximum pour le montant
+        //on ne peut pas passer plus de 1000000
+        $total = $superCart->total();
+
+        if ($total >= 9999999) {
+            $total = 999999;
+        }
+
+        $clientSecret = null;
+
+        if ($total > 0) {
+            //On va créer l'intention de paiement
+            $paymentIntent = PaymentIntent::create([
+                'amount' => $total * 100, //10.99 devient 1099
+                'currency' => 'eur',
+            ]);
+        $clientSecret = $paymentIntent->client_secret;
+        }
         return $this->render('cart/index.html.twig', [
             'items' => $superCart->getItems(),
+            // le client_secret permet d'effectuer le paiement plus tard
+            'clientSecret' => $clientSecret,
         ]);
     }
+
+
 }
