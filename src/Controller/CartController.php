@@ -8,6 +8,8 @@ use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CartController extends AbstractController
@@ -88,5 +90,28 @@ class CartController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/cart/success/{id}", name="cart_success")
+     */
+    public function success($id, $stripeKey, SuperCart $superCart, MailerInterface $mailer)
+    {
+        Stripe::setApiKey($stripeKey);
+        $paymentIntent = PaymentIntent::retrieve($id);
+        dump($paymentIntent);
+
+        //Envoyer le email ...
+
+        //Je rédige le mail..
+        $email = (new Email())
+                ->from('commande@immobiliare.com')
+                ->to($this->getUser()->getEmail())
+                ->subject('Votre commande')
+                ->html('<h1>Hello</h1>');
+
+        //J'envoie le mail...
+        $mailer->send($email);
+
+        return $this->render('cart/success.html.twig');
+    }
 
 }
