@@ -38,7 +38,7 @@ class AppFixtures extends Fixture
         //Création d'utilisateurs "lambda"
         
         for ($i=1; $i <= 9; $i++) {
-            $user = new User();
+            $user = new User();                                                 
             $user->setEmail($faker->email);
             $user->setPassword($this->passwordEncoder->encodePassword($user, 'test'));
             $this->addReference('user-'.$i, $user);

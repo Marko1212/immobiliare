@@ -34,7 +34,7 @@ private $properties = [
 
         $surface = $request->query->get('surface'); // équivaut à $_GET['surface']
         $budget = $request->query->get('budget');
-        $budget = $request->query->get('size');
+        $size = $request->query->get('size');
 
         // il nous manque la BDD pour faire le tri
 
