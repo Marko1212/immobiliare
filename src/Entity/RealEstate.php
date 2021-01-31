@@ -85,12 +85,14 @@ class RealEstate
     private $image;
 
     /**
+     * @Assert\NotBlank
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="realEstates")
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
 
     /**
+     * 
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="realEstates")
      * @ORM\JoinColumn(nullable=false)
      */
