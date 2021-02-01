@@ -1,73 +1,80 @@
 {% extends 'base.html.twig' %}
 
 {% block javascripts %}
-{{ parent() }}
-<script src="{{ asset("js/search.js") }}"></script>
+	{{ parent() }}
+	<script src="{{ asset("js/search.js") }}"></script>
 {% endblock %}
 
 {% block body %}
-    <div class="row my-4">
-        <div class="col-lg-10">
-            <h1 class="text-center">Toutes les annonces</h1>
-        </div>
-        <div class="col-lg-2">
-            <a href="{{ path('real_estate_create') }}" class="btn btn-primary">Créer une annonce</a>
-        </div>
+	<div class="row my-4">
+		<div class="col-lg-10">
+			<h1 class="text-center">Toutes les annonces</h1>
+		</div>
+		<div class="col-lg-2">
+			<a href="{{ path('real_estate_create') }}" class="btn btn-primary">Créer une annonce</a>
+		</div>
 
-    </div>
+	</div>
 
 
-    <div class="row">
+	<div class="row">
 
-        <div class="col-lg-3">
-            <form action="" method="get">
-                <input type="number" class="form-control mb-3" name="surface" placeholder="Surface minimum" value="{{ app.request.get('surface') }}">
-                <input type="number" class="form-control mb-3" name="budget" placeholder="Budget maximum" value="{{ app.request.get('budget') }}">
-                <select class="form-control mb-3" name="size">
-                    <option value = "" disabled {{ app.request.get('size') == null ? 'selected'}}>Nombre de pièce(s)</option>
-                    {% for size in sizes %}
-                        <option value = "{{ loop.index }}" {{ loop.index == app.request.get('size') ? 'selected' }} >{{ size }}</option>
-                    {% endfor %}
-                </select>
+		<div class="col-lg-3">
+			<form action="" method="get">
+				<input type="number" class="form-control mb-3" name="surface" placeholder="Surface minimum" value="{{ app.request.get('surface') }}">
+				<input type="number" class="form-control mb-3" name="budget" placeholder="Budget maximum" value="{{ app.request.get('budget') }}">
+				<select class="form-control mb-3" name="size">
+					<option value="" disabled {{ app.request.get('size') == null ? 'selected'}}>Nombre de pièce(s)</option>
+					{% for size in sizes %}
+						<option value="{{ loop.index }}" {{ loop.index == app.request.get('size') ? 'selected' }}>{{ size }}</option>
+					{% endfor %}
+				</select>
 
-                <button class="btn btn-primary btn-block">Filtrer</button>
-            </form>
-        </div>
+				<button class="btn btn-primary btn-block">Filtrer</button>
+			</form>
+		</div>
 
-        <div class="col-lg-9">
-            <div class="row" id="real-estate-list">
-                {% for property in properties  %}
-                    <div class="col-lg-4">
-                        <div class="card mb-4">
-                            {% if property.sold %}
-                            <img class="sold" src = "{{ asset('img/sold.png') }}" alt="Sold">
-                            {% endif %}
-                            <img class="card-img all-card-image" src = "{{ asset('img/uploads/' ~ property.image)}}" alt="{{ property.title }}">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    <a href="{{ path('real_estate_show', { slug : property.slug, id : property.id}) }}">
-                                    {{ property.title }}
-                                    </a>
-                                </h5>
-                                <p class="card-text">
-                                    {{ property.surface}} m² - {{ property.rooms }} pièce(s)
-                                </p>
-                                <p class="card-text">
-                                    Propriétaire : {{ property.owner.username | split('@').0 }}
-                                </p>
-                                <p class="property-price">
-                                    {{ property.price }} €
-                                </p>
-                                {# On vérifie que le propriétaire de l'annonce est bien l'utilisateur connecté #}
-                                {% if app.user == property.owner %}
-                                <a href="{{ path('real_estate_edit', {id: property.id}) }}" class="btn btn-primary mr-2">Modifier</a>
-                                <a href="{{ path('real_estate_delete', {id: property.id}) }}" class="btn btn-danger">Supprimer</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
+		<div class="col-lg-9">
+			<div class="row" id="real-estate-list">
+				{% for property in properties  %}
+					<div class="col-lg-4">
+						<div class="card mb-4">
+							{% if property.sold %}
+								<img class="sold" src="{{ asset('img/sold.png') }}" alt="Sold">
+							{% endif %}
+							<img class="card-img all-card-image" src="{{ asset('img/uploads/' ~ property.image)}}" alt="{{ property.title }}">
+							<div class="card-body">
+								<h5 class="card-title">
+									<a href="{{ path('real_estate_show', { slug : property.slug, id : property.id}) }}">
+										{{ property.title }}
+									</a>
+								</h5>
+								<p class="card-text">
+									{{ property.surface}}
+									m² -
+									{{ property.rooms }}
+									pièce(s)
+								</p>
+								<p class="card-text">
+									Propriétaire :
+									{{ property.owner.username | split('@').0 }}
+								</p>
+								<p class="property-price">
+									{{ property.price }}
+									€
+								</p>
+								{# On vérifie que le propriétaire de l'annonce est bien l'utilisateur connecté #}
+								{% if app.user == property.owner %}
+									<div class="d-flex justify-content-between">
+										<a href="{{ path('real_estate_edit', {id: property.id}) }}" class="btn btn-primary">Modifier</a>
+										<a href="{{ path('real_estate_delete', {id: property.id}) }}" class="btn btn-danger">Supprimer</a>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 {% endblock %}
